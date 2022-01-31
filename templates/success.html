@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success!</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+<div id="wrapper">
+    <a href="/logout">Logout</a>
+    <h1>Welcome {{request.session.user}}</h1>
+    <div id="new-post">
+    <form action="/process" method="POST">
+        {% csrf_token %}
+        <label for="new_post">Post a message</label>
+        <input type="text" name="new_post" id="new_post" class="form-control">
+        <button class="btn btn-primary">Post a message</button>
+    </form>
+    </div>
+    <div id="posts">
+        <div class="one_post">
+            {% for post in wall_messages %}
+            <p class='post'>{{post.message}}</p>
+            <p class='poster'>By: <a href="/user_profile/{{post.poster.id}}">{{post.poster.first_name}} {{post.poster.last_name}}</a></p>
+            <p>{{ post.user_likes.count }}</p>
+        </div>
+            {% endfor %}
+</div>
+</body>
+</html>
